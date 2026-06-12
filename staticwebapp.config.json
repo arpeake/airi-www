@@ -1,0 +1,25 @@
+{
+  "routes": [
+    {
+      "route": "/login",
+      "redirect": "https://app.airi-usa.com",
+      "statusCode": 301
+    }
+  ],
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["/brand/*", "/favicon*", "/styles.css"]
+  },
+  "globalHeaders": {
+    "X-Frame-Options": "DENY",
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+    "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
+    "Content-Security-Policy": "default-src 'none'; style-src 'self'; img-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
+  },
+  "mimeTypes": {
+    ".png": "image/png",
+    ".svg": "image/svg+xml"
+  }
+}

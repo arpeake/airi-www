@@ -1,0 +1,122 @@
+/* AIRI brand tokens -- sourced from Sentinelv2/docs/design-system/colors_and_type.css */
+:root {
+    --airi-brand-navy:      #0b1f33;
+    --airi-brand-navy-700:  #0a1c2e;
+    --airi-brand-navy-800:  #050f1c;
+    --airi-brand-accent:    #6bdbcb;
+    --airi-text-inverse:    #f8f9fa;
+    --airi-text-on-dark:    #c8d3e0;
+    --airi-font-sans:       -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --airi-radius-pill:     999px;
+    --airi-shadow-md:       0 4px 8px rgba(15, 23, 42, 0.08), 0 2px 4px rgba(15, 23, 42, 0.06);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: var(--airi-font-sans);
+    background: linear-gradient(160deg, var(--airi-brand-navy) 0%, var(--airi-brand-navy-800) 100%);
+    color: var(--airi-text-inverse);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* -- Header (Login button top-right) -- */
+
+.site-header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px 28px;
+    z-index: 10;
+}
+
+.login-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 96px;
+    padding: 0 24px;
+    background: transparent;
+    color: var(--airi-brand-accent);
+    border: 1.5px solid var(--airi-brand-accent);
+    border-radius: var(--airi-radius-pill);
+    font-family: var(--airi-font-sans);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.login-btn:hover {
+    background: var(--airi-brand-accent);
+    color: var(--airi-brand-navy);
+}
+
+.login-btn:focus-visible {
+    outline: 2px solid var(--airi-brand-accent);
+    outline-offset: 3px;
+}
+
+/* -- Main content (centered) -- */
+
+.site-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 24px 40px;
+    gap: 28px;
+}
+
+.logo {
+    width: 140px;
+    height: auto;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--airi-text-inverse);
+    line-height: 1.15;
+}
+
+/* -- Responsive -- */
+
+@media (max-width: 480px) {
+    .site-header {
+        padding: 16px 20px;
+    }
+
+    .logo {
+        width: 110px;
+    }
+}
+
+/* -- Reduced motion -- */
+
+@media (prefers-reduced-motion: reduce) {
+    .login-btn {
+        transition: none;
+    }
+}
