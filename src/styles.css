@@ -50,21 +50,22 @@ body {
     min-height: 44px;
     min-width: 96px;
     padding: 0 24px;
-    background: transparent;
-    color: var(--airi-brand-accent);
+    background: var(--airi-brand-accent);
+    color: var(--airi-brand-navy);
     border: 1.5px solid var(--airi-brand-accent);
     border-radius: var(--airi-radius-pill);
     font-family: var(--airi-font-sans);
     font-size: 0.9375rem;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.02em;
     text-decoration: none;
     cursor: pointer;
-    transition: background 0.15s ease, color 0.15s ease;
+    transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .login-btn:hover {
-    background: var(--airi-brand-accent);
+    background: #88ece0;
+    border-color: #88ece0;
     color: var(--airi-brand-navy);
 }
 
@@ -83,21 +84,22 @@ body {
     justify-content: center;
     text-align: center;
     padding: 80px 24px 40px;
-    gap: 28px;
+    gap: 44px;
 }
 
 .logo {
-    width: min(280px, 75vw);
+    width: min(360px, 88vw);
     height: auto;
     user-select: none;
     -webkit-user-drag: none;
 }
 
 h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    color: var(--airi-text-inverse);
+    font-size: clamp(0.75rem, 1.5vw, 0.9375rem);
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--airi-text-on-dark);
     line-height: 1.15;
 }
 
@@ -109,7 +111,7 @@ h1 {
     }
 
     .logo {
-        width: min(220px, 80vw);
+        width: min(300px, 88vw);
     }
 }
 
