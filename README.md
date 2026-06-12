@@ -10,71 +10,47 @@ Static Web Apps (Free tier, $0/mo). Seed for the future AIRI marketing and signu
 - No build step. Plain static files in `src/` deployed as-is via GitHub Actions + Azure SWA.
 - Style: no em-dashes or en-dashes (ASCII `-` or ` -- `), US English everywhere.
 
-## One-time Azure setup (operator, do this before the first deploy works)
+## Azure setup -- ALREADY DONE
 
-### 1. Create the Azure resource
+The Azure resource, deployment token, and GitHub Actions secret are all provisioned. The page is
+live at the default hostname:
 
-In the Azure portal (or `az` CLI under your personal login -- the CI identity `id-airi-cicd` cannot
-create resources in a new resource group):
+**Default hostname (live now):** `https://kind-rock-0f1ab130f.7.azurestaticapps.net`
 
-| Field | Value |
+| Resource | Value |
 |---|---|
+| Resource group | `rg-airi-web-eus2` |
+| SWA name | `stapp-airi-www` |
 | Subscription | `AIRI` (`7e47d097-3621-4136-98e3-faf139c05737`) |
-| Resource group | `rg-airi-web-eus2` (create new) |
-| Name | `stapp-airi-www` |
-| Region | East US 2 |
-| Plan | Free |
-| Deployment source | Other (you will link GitHub manually) |
+| GitHub secret | `AZURE_STATIC_WEB_APPS_API_TOKEN` -- set |
 
-After creation, the portal shows the **default hostname** -- looks like
-`<random-name>.azurestaticapps.net`. Copy it; you need it for DNS and for the custom domain binding.
+## DNS records -- operator action required
 
-### 2. Get the deployment token
+The only remaining step is adding DNS records at your registrar and confirming so the custom
+domain binding can be finalized. Cutover order matters:
 
-In the portal: `stapp-airi-www` -> Overview -> Manage deployment token. Copy the token.
+1. Add the `www` CNAME below. Wait for DNS to propagate (~minutes to an hour).
+2. Confirm `https://app.airi-usa.com` login is reachable (the Login button target).
+3. Then add the apex record to cut `airi-usa.com` off the legacy host (`108.22.241.42`).
+4. Let the team know DNS is in place -- the domain binding (cert issuance) can then be finalized.
 
-### 3. Add the token to this repo
+### Exact records to add
 
-GitHub repo `arpeake/airi-www` -> Settings -> Secrets and variables -> Actions -> New repository
-secret:
-
-| Name | Value |
-|---|---|
-| `AZURE_STATIC_WEB_APPS_API_TOKEN` | (the token from step 2) |
-
-Push anything to `main` to trigger the first deploy and verify the default hostname serves the page.
-
-## DNS records (apply after verifying the default hostname works)
-
-Cutover sequence matters -- do it in this order to avoid any gap:
-
-1. Stand up SWA and verify `<random>.azurestaticapps.net` serves the page.
-2. Bind `www.airi-usa.com` in the portal + apply the `www` records below. Wait for the managed cert
-   to issue and verify `https://www.airi-usa.com` loads.
-3. Confirm `https://app.airi-usa.com` login is live (the Login button's target).
-4. Then apply the apex records to cut `airi-usa.com` off the legacy host (`108.22.241.42`).
-
-### Records to add at your registrar
-
-Replace `<swa-hostname>` with the actual default hostname from step 1 above.
-Replace `<www-token>` and `<apex-token>` with the validation strings shown in the SWA portal when
-you add each custom domain (Azure -> Static Web App -> Custom domains -> + Add).
+Do NOT touch existing records: `app`, `app-dev`, `eus`, `eus-dev` -- those are the live platform.
 
 | Host | Type | Value | TTL | Notes |
 |---|---|---|---|---|
-| `www` | CNAME | `<swa-hostname>.azurestaticapps.net` | 3600 | content host |
-| `_dnsauth.www` | TXT | `<www-token>` | 3600 | SWA domain validation (exact host shown in portal) |
-| `@` | ALIAS / ANAME | `<swa-hostname>.azurestaticapps.net` | 3600 | apex -- only if registrar supports ALIAS/ANAME/CNAME-flattening |
-| `@` | TXT | `<apex-token>` | 3600 | SWA apex validation |
+| `www` | CNAME | `kind-rock-0f1ab130f.7.azurestaticapps.net` | 3600 | points www to the SWA |
+| `@` | ALIAS / ANAME | `kind-rock-0f1ab130f.7.azurestaticapps.net` | 3600 | apex -- only if registrar supports ALIAS/ANAME/CNAME-flattening |
 
-**If your registrar does not support ALIAS/ANAME on the apex** (many do not -- DNS forbids a bare
-CNAME at `@`): use the registrar's URL-forward/redirect feature to send `airi-usa.com` -> `https://www.airi-usa.com` (HTTP 301). Content lives on `www`; the apex redirects there. Both paths
-end up on the same SWA page with a valid TLS cert.
+**If the registrar does not support ALIAS/ANAME at the apex** (DNS forbids a bare CNAME at `@`):
+use the registrar's URL-forward/redirect to send `airi-usa.com` -> `https://www.airi-usa.com`
+(301). Content lives on `www`; the apex redirects there. To check, look for an ALIAS, ANAME, or
+"CNAME-flattening" option at the root (`@`) in your registrar's DNS manager.
 
-To check which applies, run: `nslookup -type=ns airi-usa.com` and look up whether your registrar's
-DNS manager has an ALIAS, ANAME, or CNAME-flattening option at the root (`@`).
-
-Do NOT touch the existing records: `app`, `app-dev`, `eus`, `eus-dev` -- those are the live platform.
+After DNS is set, the `az staticwebapp hostname set` commands are run to bind the custom domains
+and trigger free managed-cert issuance. TXT validation tokens (if the registrar needs them) will
+be provided at that point from the portal.
 
 ## Ongoing deploys
 
