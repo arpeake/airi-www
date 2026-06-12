@@ -87,7 +87,7 @@ body {
 }
 
 .logo {
-    width: 140px;
+    width: min(280px, 75vw);
     height: auto;
     user-select: none;
     -webkit-user-drag: none;
@@ -109,7 +109,7 @@ h1 {
     }
 
     .logo {
-        width: 110px;
+        width: min(220px, 80vw);
     }
 }
 
