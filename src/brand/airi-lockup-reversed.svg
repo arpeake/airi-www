@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 120" width="360" height="120" role="img" aria-label="AIRI logo">
-<path d="M28,92 L56,40" fill="none" stroke="#ffffff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 20 270 90" width="270" height="90" role="img" aria-label="AIRI logo">
+  <path d="M28,92 L56,40" fill="none" stroke="#ffffff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M56,40 L84,92" fill="none" stroke="#ffffff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M36,73 L46,73 L50,61 L56,89 L61,73 L74,73" fill="none" stroke="#6bdbcb" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
   <text x="118" y="82" font-family="'Segoe UI',Roboto,system-ui,sans-serif" font-size="48" font-weight="600" letter-spacing="5" fill="#ffffff">AIRI</text>
